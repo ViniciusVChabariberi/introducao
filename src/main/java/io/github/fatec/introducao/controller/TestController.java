@@ -1,17 +1,26 @@
 package io.github.fatec.introducao.controller;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
-
-import java.util.UUID;
+import io.github.fatec.introducao.dto.Records;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
+@RequestMapping("/pessoas")
 public class TestController {
 
-    @GetMapping(value = "teste")
-    public String teste() {
-        String id = UUID.randomUUID().toString();
-        return id;
+    @PostMapping
+    public Records.PessoaResponse criarPessoa(@RequestBody Records.PessoaPostRequest request) {
+        Long idGerado = 1L;
+        return new Records.PessoaResponse(idGerado, request.nome());
+    }
+
+    @PutMapping
+    public Records.PessoaResponse atualizarPessoa(@RequestBody Records.PessoaPutRequest request) {
+        return new Records.PessoaResponse(request.id(), request.nome());
+    }
+
+    @DeleteMapping("/{id}")
+    public String deletarPessoa(@PathVariable Long id) {
+        return "Usuario: " + id + " Deletado";
     }
 
 }
